@@ -59,6 +59,11 @@ export class AppComponent {
     this.showNationCount()
   }
 
+  onResize($event){
+    this.screenSize = $event.target.innerWidth;
+    console.log(this.screenSize)
+  }
+
   showNationCount(){
     this.nationCount.nativeElement.innerHTML = '( ' + this.countriesData.length + ' )';
   }

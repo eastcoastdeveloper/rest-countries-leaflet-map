@@ -1,4 +1,4 @@
-<div id="countries">
+<div id="countries" (window:resize)="onResize($event)">
      <div class="content">
           <div class="grid" [ngClass]="{'no-interaction':!userInteraction}">
                <div class="countries-wrapper">
