@@ -1,0 +1,334 @@
+@import "./styles/colors.scss";
+
+#countries {
+  height: 100vh;
+}
+.content {
+  height: 100%;
+}
+.countries-wrapper {
+  background-color: $white;
+  color: $black;
+  position: relative;
+  z-index: 999;
+}
+.grid {
+  display: grid;
+  grid-template-columns: 300px auto;
+  position: relative;
+  height: 100%;
+}
+
+ul {
+  list-style-type: none;
+  font: normal 14px sans-serif;
+  padding: 0;
+  margin: 0;
+  li {
+    padding: 7px 0 7px 12px;
+    cursor: pointer;
+    color: $black;
+
+    &:hover {
+      background-color: $black;
+      color: $yellow;
+    }
+  }
+}
+
+.btn-group {
+  position: absolute;
+  left: 50px;
+  z-index: 999;
+  top: 10px;
+}
+
+.map {
+  height: 100%;
+  position: relative;
+}
+.details {
+  background-color: rgba(256,256,256,.7);
+  border: 2px solid #03658C;
+  position: absolute;
+  width: 200px;
+  right: 5px;
+  z-index: 999;
+  top: 5px;
+  border-top-right-radius: 7px;
+  box-shadow: -2px 2px 8px 1px rgba(0,0,0,.4);
+}
+.country-name {
+  text-align: center;
+  font: bold 14px/21px sans-serif;
+  margin: 0 0 10px 0;
+  padding: 10px 0;
+  background-color: #03658C;
+  color: white;
+}
+.flag {
+  width: 180px;
+  padding-bottom: 2px;
+  text-align: center;
+  margin: 5px auto;
+  img {
+    width: 100%;
+    margin: 0 auto;
+  }
+}
+.capitalCity, .nativeName, .population, .borders, .region {
+  font: normal 13px/21px sans-serif;
+  margin: 0 0 7px 10px;
+
+  p {
+    margin: 0;
+  }
+}
+.search-bar {
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 10px 10px 5px 10px;
+  position: relative;
+
+  input {
+    border: none;
+    font: normal 13px sans-serif;
+    padding: 7px 10px;
+    width: 100%;
+  }
+}
+.scroller {
+  overflow: auto;
+  height: calc(100vh - 55px);
+}
+.clear {
+  position: absolute;
+  top: 50%;
+  color: $yellow;
+  right: 4px;
+  transform: translateY(-50%);
+  font-size: 19px;
+  background-color: $black;
+  width: 22px;
+  cursor: pointer;
+  text-align: center;
+  padding-bottom: 2px;
+  padding-top: 0px;
+  border-radius: 4px;
+  padding-left: 1px;
+}
+.filter {
+  line-height: 24px;
+  right: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+  text-transform: capitalize;
+  position: absolute;
+}
+.filter-options {
+  position: absolute;
+  border: 1px solid #457b9d;
+  background-color: white;
+  top: 39px;
+  margin: 4px 10px 5px 10px;
+  border-radius: 4px;
+  width: calc(100% - 20px);
+  overflow: hidden;
+  box-sizing: border-box;
+  z-index: 1;
+  box-shadow: 2px 3px 6px 2px rgba(0,0,0,.2);
+
+  p {
+    margin: 0;
+    color: #03658C;
+    cursor: pointer;
+    font: bold 14px sans-serif;
+    padding-left: 10px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+
+    &:hover {
+      background-color:$black;
+      color: $yellow;
+    }
+  }
+}
+.count {
+  font: normal 12px sans-serif;
+  position: absolute;
+  right: 15px;
+  top: 52px;
+  z-index: 1;
+}
+.hide-descr {
+  top: 12px;
+  right: 20px;
+  z-index: 99999;
+}
+#map {
+  height: auto;
+  position: relative;
+}
+
+@media screen and (max-width:992px){
+  .no-interaction {
+    grid-template-areas: 'map' 'countries' !important;
+    grid-template-columns: 100% !important;
+  }
+  .btn-group {
+    right: 10px;
+    left: unset;
+  }
+  #modal .bg {
+    max-width: 75%;
+    width: 100%;
+  }
+  .scroller {
+    height: calc(100% - 45px);
+  }
+  .grid {
+    grid-template-columns: 300px auto;
+    grid-template-areas: "map map" "countries details";
+    grid-template-rows: 60% 40%;
+
+    .countries-wrapper {
+      grid-area: countries;
+      height: 100%;
+    }
+    .country-name {
+      margin-bottom: 0;
+    }
+    #map {
+      grid-area: map;
+      height: 100%;
+    }
+    .details {
+      position: unset !important;
+      grid-area: details;
+      width: unset !important;
+      border-radius: 0;
+      z-index: auto;
+      border: none;
+
+      .details-body {
+        display: grid;
+        grid-template-areas:
+            "capCity flag"
+            "nativeName flag"
+            "population flag"
+            "borders flag"
+            "region flag";
+        grid-template-columns: 200px auto;
+        grid-template-rows: repeat(5,20%);
+        height: calc(100% - 50px);
+        position: relative;
+        transform: translateY(4px);
+
+        > div {
+          p:first-child {
+            float: left;
+          }
+        }
+      }
+      .flag {
+        position: relative;
+        display: block;
+        height: auto;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+
+        img {
+          display: block;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 175px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width:768px){
+  #modal .bg {
+    max-width: 90%;
+  }
+  .scroller {
+    height: calc(100% - 45px);
+  }
+  .grid {
+    grid-template-areas:
+        'map'
+        'countries';
+    grid-template-columns: 100%;
+    grid-template-rows: repeat(2,55%);
+
+    .details {
+      position: absolute !important;
+      border: none;
+      width: 100% !important;
+      top: calc(60vh - 115px);
+      left: 0;
+      z-index: 9999;
+
+      .details-body {
+        grid-template-areas:
+        "capCity flag"
+        "population flag"
+        "region flag";
+        grid-template-columns: 70% auto;
+        grid-template-rows: repeat(3, 15px);
+        transform: none;
+        grid-gap: 5px;
+        height: auto;
+        padding: 10px 0 5px 0;
+        width: calc(100% - 5px);
+
+        .country-name {
+          background-color: transparent;
+          color: #f1faee;
+          text-align: left;
+          padding: 0 0 0 10px;
+        }
+
+        div {
+          margin-bottom: 0;
+        }
+
+        p {
+          line-height: 10px;
+        }
+
+        .countries-wrapper {
+          padding: 0 0 0 10px;
+          margin: 0;
+          text-align: left;
+          background-color: transparent;
+          color: #f1faee;
+        }
+
+        .flag {
+          img {
+            width: 75px;
+            right: 0;
+            position: absolute;
+            margin-right: 10px;
+            top: calc(50% - 2.5px);
+            transform: translateY(-50%);
+          }
+        }
+      }
+    }
+  }
+  .countries-wrapper {
+    height: calc(40vh - 50px);
+  }
+  #map {
+    height: 60vh;
+  }
+  .content {
+    height: calc(100vh - 51px);
+  }
+}

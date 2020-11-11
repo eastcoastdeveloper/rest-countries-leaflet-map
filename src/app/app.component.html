@@ -1,0 +1,60 @@
+<div id="countries">
+     <div class="content">
+          <div class="grid" [ngClass]="{'no-interaction':!userInteraction}">
+               <div class="countries-wrapper">
+                    <div class="search-bar">
+                         <input type="text" [(ngModel)]="searchTerm" placeholder="Search for a country" />
+                         <div class="filter standard-btn" (click)="viewFilters()">filter</div>
+                         <div class="clear" (click)="clearString()">
+                              &times;
+                         </div>
+                    </div>
+                    <div #nationCount class="count"></div>
+                    <div class="filter-options" *ngIf="filterMenu">
+                         <p (click)="showAll()">All</p>
+                         <p (click)="filterAmericas()">Americas</p>
+                         <p (click)="filterEurope()">Europe</p>
+                         <p (click)="filterAfrica()">Africa</p>
+                         <p (click)="filterAsia()">Asia</p>
+                         <p (click)="filterOceania()">Oceania</p>
+                         <p (click)="filterPolar()">Polar</p>
+                    </div>
+                    <div class="scroller">
+                         <ul>
+                              <li *ngFor="let item of countriesData | filterlist:searchTerm; let i = index" (click)="selectItem(i, $event)">{{ item.name }}</li>
+                         </ul>
+                    </div>
+               </div>
+               <div id="map" leaflet (leafletMapReady)="onMapReady($event)" [leafletOptions]="mapOptions"></div>
+               <div class="details" *ngIf="userInteraction">
+                    <p class="country-name" *ngIf="screenSize > 768">{{ countryName }}</p>
+                    <div class="details-body">
+                         <div class="capitalCity" style="grid-area: capCity" *ngIf="screenSize > 768">
+                              <p><b>Capital City:</b></p>
+                              <p>{{ capitalCity }}</p>
+                         </div>
+                         <div class="nativeName" style="grid-area: nativeName" *ngIf="screenSize > 768">
+                              <p><b>Native Name:</b></p>
+                              <p>{{ nativeName }}</p>
+                         </div>
+                         <div class="population" style="grid-area: population">
+                              <p><b>Population:</b></p>
+                              <p>{{ formatNumber(population) }}</p>
+                         </div>
+                         <div class="borders" style="grid-area: borders" *ngIf="screenSize > 768">
+                              <p><b>Bordering Countries:</b></p>
+                              <p>{{ borderingCountries }}</p>
+                         </div>
+                         <div class="region" style="grid-area: region">
+                              <p><b>Region:</b><br></p>
+                              <p>{{ geo }}</p>
+                         </div>
+                         <p class="country-name" *ngIf="screenSize < 769">{{ countryName }}</p>
+                         <div class="flag" style="grid-area:flag">
+                              <img src="{{ flag }}" />
+                         </div>
+                    </div>
+               </div>
+          </div>
+     </div>
+</div>
