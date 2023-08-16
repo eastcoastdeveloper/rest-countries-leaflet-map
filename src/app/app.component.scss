@@ -99,7 +99,8 @@ ul {
 }
 .scroller {
   overflow: auto;
-  height: calc(100vh - 50px);
+  height: 100vh;
+  // height: calc(100vh - 50px);
 }
 .clear {
   position: absolute;
