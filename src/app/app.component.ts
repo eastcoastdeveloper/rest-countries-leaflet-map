@@ -1,141 +1,158 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as L from 'leaflet';
-import { icon, latLng, Map, marker, point, polyline, MapOptions, Marker, tileLayer, map } from 'leaflet';
+import {
+  icon,
+  latLng,
+  Map,
+  marker,
+  point,
+  polyline,
+  MapOptions,
+  Marker,
+  tileLayer,
+  map,
+} from 'leaflet';
 declare let L;
+import * as data from './countries.json';
 
 @Component({
   selector: 'my-app',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-
   mapOptions: MapOptions;
-  borderingCountries:any;
-  screenSize:number;
-  selectedItem:any;
-  countryName:any;
-  capitalCity:any;
+  borderingCountries: any;
+  screenSize: number;
+  selectedItem: any;
+  countryName: any;
+  capitalCity: any;
   nativeName: any;
   population: any;
-  longitude:any;
-  latitude:any;
+  longitude: any;
+  latitude: any;
   flag: any;
   map: Map;
-  geo:any;
+  geo: any;
 
-  userInteraction:boolean = false;
-  projectIntro:boolean;
-  filterMenu:boolean;
+  userInteraction: boolean = false;
+  projectIntro: boolean;
+  filterMenu: boolean;
 
-  searchTerm:string;
+  searchTerm: string;
 
-  americasFilter:any = [];
-  countriesData:any = [];
-  oceaniaFilter:any = [];
-  africaFilter:any = [];
-  europeFilter:any = [];
-  masterArray:any = [];
-  polarFilter:any = [];
-  asiaFilter:any = [];
+  americasFilter: any = [];
+  countriesData: any = [];
+  oceaniaFilter: any = [];
+  africaFilter: any = [];
+  europeFilter: any = [];
+  masterArray: any = [];
+  polarFilter: any = [];
+  asiaFilter: any = [];
 
-  @ViewChild('nationCount', {static:false}) nationCount:ElementRef;
+  @ViewChild('nationCount', { static: false }) nationCount: ElementRef;
 
-  constructor(
-    private http:HttpClient
-  ) {}
+  constructor(private http: HttpClient) {}
 
-  ngOnInit(){
-    this.http.get<any>('https://restcountries.eu/rest/v2/all').subscribe(data => {
-      this.masterArray = data;
-      this.countriesData = this.masterArray.slice();
-    })
+  /*
+    REST Countries is sporadically down
+    https://restcountries.eu/rest/v2/all
+  */
+  ngOnInit() {
+    this.http
+      .get<any>('assets/countries.json')
+      .subscribe((data) => {
+        this.masterArray = data;
+        this.countriesData = this.masterArray.slice();
+        console.log(data);
+      });
 
     this.initializeMapOptions();
   }
 
-  ngAfterViewChecked(){
-    this.showNationCount()
+  ngAfterViewChecked() {
+    this.showNationCount();
   }
 
-  onResize($event){
+  onResize($event) {
     this.screenSize = $event.target.innerWidth;
-    console.log(this.screenSize)
+    console.log(this.screenSize);
   }
 
-  showNationCount(){
-    this.nationCount.nativeElement.innerHTML = '( ' + this.countriesData.length + ' )';
+  showNationCount() {
+    this.nationCount.nativeElement.innerHTML =
+      '( ' + this.countriesData.length + ' )';
   }
 
-  viewFilters(){
+  viewFilters() {
     this.filterMenu = !this.filterMenu;
   }
-  
-  filterAmericas(){
-    this.setMaster()
-    this.closeFilterMenu()
-    this.americasFilter = this.countriesData.filter(function(item) {
-      return item.region === 'Americas'
+
+  filterAmericas() {
+    this.setMaster();
+    this.closeFilterMenu();
+    this.americasFilter = this.countriesData.filter(function (item) {
+      return item.region === 'Americas';
     });
     this.countriesData = this.americasFilter;
   }
 
-  filterEurope(){
-    this.setMaster()
-    this.closeFilterMenu()
-    this.europeFilter = this.countriesData.filter(function(item) {
-      return item.region === 'Europe'
+  filterEurope() {
+    this.setMaster();
+    this.closeFilterMenu();
+    this.europeFilter = this.countriesData.filter(function (item) {
+      return item.region === 'Europe';
     });
     this.countriesData = this.europeFilter;
   }
 
-  filterAfrica(){
-    this.setMaster()
-    this.closeFilterMenu()
-    this.africaFilter = this.countriesData.filter(function(item) {
-      return item.region === 'Africa'
+  filterAfrica() {
+    this.setMaster();
+    this.closeFilterMenu();
+    this.africaFilter = this.countriesData.filter(function (item) {
+      return item.region === 'Africa';
     });
     this.countriesData = this.africaFilter;
   }
 
-  filterAsia(){
-    this.setMaster()
-    this.closeFilterMenu()
-    this.asiaFilter = this.countriesData.filter(function(item) {
-      return item.region === 'Asia'
+  filterAsia() {
+    this.setMaster();
+    this.closeFilterMenu();
+    this.asiaFilter = this.countriesData.filter(function (item) {
+      return item.region === 'Asia';
     });
     this.countriesData = this.asiaFilter;
   }
 
-  filterOceania(){
-    this.setMaster()
-    this.closeFilterMenu()
-    this.oceaniaFilter = this.countriesData.filter(function(item) {
-      return item.region === 'Oceania'
+  filterOceania() {
+    this.setMaster();
+    this.closeFilterMenu();
+    this.oceaniaFilter = this.countriesData.filter(function (item) {
+      return item.region === 'Oceania';
     });
     this.countriesData = this.oceaniaFilter;
   }
 
-  filterPolar(){
-    this.setMaster()
-    this.closeFilterMenu()
-    this.polarFilter = this.countriesData.filter(function(item) {
-      return item.region === 'Polar'
+  filterPolar() {
+    this.setMaster();
+    this.closeFilterMenu();
+    this.polarFilter = this.countriesData.filter(function (item) {
+      return item.region === 'Polar';
     });
     this.countriesData = this.polarFilter;
   }
 
-  closeFilterMenu(){
+  closeFilterMenu() {
     this.filterMenu = false;
   }
 
-  setMaster(){
+  setMaster() {
     this.countriesData = this.masterArray;
   }
 
-  showAll(){
-    this.closeFilterMenu()
+  showAll() {
+    this.closeFilterMenu();
     this.countriesData = this.masterArray;
   }
 
@@ -144,13 +161,13 @@ export class AppComponent {
   }
 
   private addSampleMarker() {
-    const marker = new Marker([51.51, 0])
-      .setIcon(
-        icon({
-          iconSize: [25, 41],
-          iconAnchor: [13, 41],
-          iconUrl: '../../../assets/marker-icon-2x.png'
-        }));
+    const marker = new Marker([51.51, 0]).setIcon(
+      icon({
+        iconSize: [25, 41],
+        iconAnchor: [13, 41],
+        iconUrl: '../../../assets/marker-icon-2x.png',
+      })
+    );
     marker.addTo(this.map);
   }
 
@@ -159,56 +176,54 @@ export class AppComponent {
       center: latLng(38, -97),
       zoom: 4,
       layers: [
-        tileLayer(
-          'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-          {
-            maxZoom: 18,
-            attribution: 'Map data © OpenStreetMap contributors'
-          })
+        tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 18,
+          attribution: 'Map data © OpenStreetMap contributors',
+        }),
       ],
     };
   }
 
-  selectItem(i:any, e:any){
-    this.closeFilterMenu()
+  selectItem(i: any, e: any) {
+    this.closeFilterMenu();
     this.clearString();
     var name = e.target.innerHTML;
-    this.countriesData.map(function(index:any, val:any){
-      if(index.name === name){
+    this.countriesData.map(function (index: any, val: any) {
+      if (index.name === name) {
         i = val;
       }
-    })
+    });
 
-    this.setMarker(i)
-    this.setDetails(i)
+    this.setMarker(i);
+    this.setDetails(i);
   }
 
-  setMarker(i:any){
+  setMarker(i: any) {
     this.userInteraction = true;
     this.longitude = this.countriesData[i].latlng[0];
     this.latitude = this.countriesData[i].latlng[1];
 
-    const marker = new Marker([this.longitude, this.latitude])
-      .setIcon(
-        icon({
-          iconSize: [25, 41],
-          iconAnchor: [13, 41],
-          iconUrl: '../../../assets/marker-icon-2x.png'
-        }));
+    const marker = new Marker([this.longitude, this.latitude]).setIcon(
+      icon({
+        iconSize: [25, 41],
+        iconAnchor: [13, 41],
+        iconUrl: '../../../assets/marker-icon-2x.png',
+      })
+    );
     marker.bindTooltip(this.countriesData[i].name).openTooltip();
-        
-    this.map.setView([this.longitude, this.latitude], 5)
-    this.map.invalidateSize()
-    this.markerHandler(marker)
+
+    this.map.setView([this.longitude, this.latitude], 5);
+    this.map.invalidateSize();
+    this.markerHandler(marker);
   }
 
-  markerHandler(pin:any){
-    pin.addTo(this.map).addEventListener('click', function(event){
+  markerHandler(pin: any) {
+    pin.addTo(this.map).addEventListener('click', function (event) {
       this.selectedItem = event.sourceTarget._tooltip._content;
-    })
+    });
   }
 
-  setDetails(i:number){
+  setDetails(i: number) {
     this.countryName = this.countriesData[i].name;
     this.capitalCity = this.countriesData[i].capital;
     this.flag = this.countriesData[i].flag;
@@ -218,23 +233,19 @@ export class AppComponent {
     this.geo = this.countriesData[i].region;
   }
 
-  formatNumber(i:number){
+  formatNumber(i: number) {
     var nf = Intl.NumberFormat(),
       x = this.population,
       result = nf.format(x);
-      return result
+    return result;
   }
 
-  clearString(){
+  clearString() {
     this.searchTerm = '';
-    this.setMaster()
+    this.setMaster();
   }
 
-  projectDescription(){
+  projectDescription() {
     this.projectIntro = !this.projectIntro;
   }
- 
-  
-
-
 }
