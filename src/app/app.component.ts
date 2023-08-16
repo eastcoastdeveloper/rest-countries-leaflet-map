@@ -14,7 +14,6 @@ import {
   map,
 } from 'leaflet';
 declare let L;
-import * as data from './countries.json';
 
 @Component({
   selector: 'my-app',
