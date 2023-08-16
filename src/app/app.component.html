@@ -21,7 +21,7 @@
                     </div>
                     <div class="scroller">
                          <ul>
-                              <li *ngFor="let item of countriesData | filterlist:searchTerm; let i = index" (click)="selectItem(i, $event)">{{ item.name }}</li>
+                              <li *ngFor="let item of countriesData | filterlist:searchTerm; let i = index" (click)="selectItem(i, $event)">{{ item.name.common }}</li>
                          </ul>
                     </div>
                </div>

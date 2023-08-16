@@ -64,7 +64,7 @@ export class AppComponent {
       .subscribe((data) => {
         this.masterArray = data;
         this.countriesData = this.masterArray.slice();
-        console.log(data);
+        console.log(data[0].flag);
       });
 
     this.initializeMapOptions();
@@ -225,7 +225,7 @@ export class AppComponent {
   setDetails(i: number) {
     this.countryName = this.countriesData[i].name;
     this.capitalCity = this.countriesData[i].capital;
-    this.flag = this.countriesData[i].flag;
+    this.flag = this.countriesData[i].flags.png;
     this.nativeName = this.countriesData[i].nativeName;
     this.population = this.countriesData[i].population;
     this.borderingCountries = this.countriesData[i].borders;
