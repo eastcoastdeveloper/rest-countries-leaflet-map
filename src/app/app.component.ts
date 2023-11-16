@@ -64,7 +64,6 @@ export class AppComponent {
       .subscribe((data) => {
         this.masterArray = data;
         this.countriesData = this.masterArray.slice();
-        console.log(data[0].flag);
       });
 
     this.initializeMapOptions();
@@ -76,7 +75,6 @@ export class AppComponent {
 
   onResize($event) {
     this.screenSize = $event.target.innerWidth;
-    console.log(this.screenSize);
   }
 
   showNationCount() {
@@ -177,7 +175,7 @@ export class AppComponent {
       layers: [
         tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           maxZoom: 18,
-          attribution: 'Map data © OpenStreetMap contributors',
+          attribution: 'frontenddevelopment.tech',
         }),
       ],
     };
@@ -223,7 +221,8 @@ export class AppComponent {
   }
 
   setDetails(i: number) {
-    this.countryName = this.countriesData[i].name;
+    console.log(this.countriesData)
+    this.countryName = this.countriesData[i].name.common;
     this.capitalCity = this.countriesData[i].capital;
     this.flag = this.countriesData[i].flags.png;
     this.nativeName = this.countriesData[i].nativeName;
