@@ -209,7 +209,6 @@ export class AppComponent {
   }
 
   setDetails(i: number) {
-    console.log(this.countriesData);
     this.countryName = this.countriesData[i].name.common;
     this.capitalCity = this.countriesData[i].capital;
     this.flag = this.countriesData[i].flags.png;
