@@ -59,12 +59,10 @@ export class AppComponent {
     https://restcountries.eu/rest/v2/all
   */
   ngOnInit() {
-    this.http
-      .get<any>('assets/countries.json')
-      .subscribe((data) => {
-        this.masterArray = data;
-        this.countriesData = this.masterArray.slice();
-      });
+    this.http.get<any>('assets/countries.json').subscribe((data) => {
+      this.masterArray = data;
+      this.countriesData = this.masterArray.slice();
+    });
 
     this.initializeMapOptions();
   }
@@ -157,17 +155,6 @@ export class AppComponent {
     this.map = map;
   }
 
-  private addSampleMarker() {
-    const marker = new Marker([51.51, 0]).setIcon(
-      icon({
-        iconSize: [25, 41],
-        iconAnchor: [13, 41],
-        iconUrl: '../../../assets/marker-icon-2x.png',
-      })
-    );
-    marker.addTo(this.map);
-  }
-
   private initializeMapOptions() {
     this.mapOptions = {
       center: latLng(38, -97),
@@ -202,11 +189,12 @@ export class AppComponent {
 
     const marker = new Marker([this.longitude, this.latitude]).setIcon(
       icon({
-        iconSize: [25, 41],
+        iconSize: [18, 30],
         iconAnchor: [13, 41],
-        iconUrl: '../../../assets/marker-icon-2x.png',
+        iconUrl: 'https://unpkg.com/leaflet@1.3.4/dist/images/marker-icon.png',
       })
     );
+
     marker.bindTooltip(this.countriesData[i].name).openTooltip();
 
     this.map.setView([this.longitude, this.latitude], 5);
@@ -221,7 +209,7 @@ export class AppComponent {
   }
 
   setDetails(i: number) {
-    console.log(this.countriesData)
+    console.log(this.countriesData);
     this.countryName = this.countriesData[i].name.common;
     this.capitalCity = this.countriesData[i].capital;
     this.flag = this.countriesData[i].flags.png;
