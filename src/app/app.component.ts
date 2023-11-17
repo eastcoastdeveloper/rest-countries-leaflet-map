@@ -67,17 +67,8 @@ export class AppComponent {
     this.initializeMapOptions();
   }
 
-  ngAfterViewChecked() {
-    this.showNationCount();
-  }
-
   onResize($event) {
     this.screenSize = $event.target.innerWidth;
-  }
-
-  showNationCount() {
-    this.nationCount.nativeElement.innerHTML =
-      '( ' + this.countriesData.length + ' )';
   }
 
   viewFilters() {
