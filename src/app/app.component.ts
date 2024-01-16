@@ -59,12 +59,12 @@ export class AppComponent {
     https://restcountries.eu/rest/v2/all
   */
   ngOnInit() {
-    this.http.get<any>('assets/countries.json').subscribe((data) => {
-      this.masterArray = data;
-      this.countriesData = this.masterArray.slice();
-    });
+    // this.http.get<any>('assets/countries.json').subscribe((data) => {
+    //   this.masterArray = data;
+    //   this.countriesData = this.masterArray.slice();
+    // });
 
-    this.initializeMapOptions();
+    // this.initializeMapOptions();
   }
 
   onResize($event) {
